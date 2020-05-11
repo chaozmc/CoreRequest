@@ -16,14 +16,23 @@ $aDnsReqRestored
 #Generate a KeyTabRequest and save it
 Add-Type -Path "C:\Temp\CoreRequest.dll"
 $aKeyTabReq = New-Object -TypeName CoreRequest.KeyTabRequest
-$aKeyTabConfig = New-Object -TypeName CoreRequest.KeyTabConfig($true, "svc_ledfreame", [CoreRequest.KeyTabConfig+KeyTabEncryption]::Aes128Aes256, $false, "", $false, "", "/tmp/ktexports/")
-$aKeyTabConfig2 = New-Object -TypeName CoreRequest.KeyTabConfig($true, "svc_markerctl", [CoreRequest.KeyTabConfig+KeyTabEncryption]::Aes128Aes256, $false, "", $false, "", "/tmp/ktexports/")
-$aKeyTabReq.AddConfigToCollection($aKeyTabConfig)
-$aKeyTabReq.AddConfigToCollection($aKeyTabConfig2)
-$aKeyTabReq.SaveTo("C:\Temp\Test\", "Test2.xml")
+#Keytabrequest with unknown password
+$aKeyTabConfigWKP = New-Object -TypeName CoreRequest.KeyTabConfig($true, 'svc_ledframe', [CoreRequest.KeyTabConfig+KeyTabEncryption]::Aes128Aes256)
+#KeyTabRequest with known password
+$aKeyTabConfigWOKP = New-Object -TypeName CoreRequest.KeyTabConfig($true, 'svc_ledframe', [CoreRequest.KeyTabConfig+KeyTabEncryption]::Aes128Aes256, $true)
+#KeyTabRequest with unknown password and a SPN
+$aKeyTabConfigWithSPN = New-Object -TypeName CoreRequest.KeyTabConfig($true, 'svc_ledframe', [CoreRequest.KeyTabConfig+KeyTabEncryption]::Aes128Aes256, $false, $true, 'HTTP/ledframe.is-jo.org')
+#KeyTabRequest with known password and an UPN but without SPN
+$aKeyTabConfigWithUPN = New-Object -TypeName CoreRequest.KeyTabConfig($true, 'svc_ledframe', [CoreRequest.KeyTabConfig+KeyTabEncryption]::Aes128Aes256, $false, $false, $null, $true, 'HTTP/ledframe.is-jo.org@HOME.LOCAL')
+
+$aKeyTabReq.AddConfigToCollection($aKeyTabConfigWKP)
+$aKeyTabReq.AddConfigToCollection($aKeyTabConfigWOKP)
+$aKeyTabReq.AddConfigToCollection($aKeyTabConfigWithUPN)
+$aKeyTabReq.AddConfigToCollection($aKeyTabConfigWithSPN)
+$aKeyTabReq.SaveTo("C:\Temp", "KTRequest.xml")
 
 #Load a KeyTabRequest from a XML-File
 Add-Type -Path "C:\Temp\CoreRequest.dll"
-$aKeyTabReqRestored = [CoreRequest.KeyTabRequest]::Open("C:\Temp\Test\", "Test2.xml")
+$aKeyTabReqRestored = [CoreRequest.KeyTabRequest]::Open("C:\Temp\", "KTRequest.xml")
 $aKeyTabReqRestored
 

@@ -359,21 +359,41 @@ namespace CoreRequest
         public string Upn { get; set; }
         public bool UseSpn { get; set; }
         public string Spn { get; set; }
-        public string ExportDirectory { get; set; }
+        public bool KnownPassword { get; set; }
 
-        public KeyTabConfig(bool useServiceAccount, string accountName, 
-            string encryptionType, bool useUpn, string upn, 
-            bool useSpn, string spn, string exportDirectory)
+        public KeyTabConfig(bool useServiceAccount, string accountName,
+            string encryptionType, bool knownPassword = false, 
+            bool useSpn = false, string spn = null,
+            bool useUpn = false, string upn = null)
         {
             this.UseServiceAccount = useServiceAccount;
             this.AccountName = accountName;
             this.EncryptionType = encryptionType;
-            this.UseUpn = useUpn;
-            this.Upn = upn;
+            this.KnownPassword = knownPassword;
             this.UseSpn = useSpn;
-            this.Spn = spn;
-            this.ExportDirectory = exportDirectory;
+            if (this.UseSpn)
+            {
+                if (string.IsNullOrEmpty(spn)) {
+                    throw new Exception("If useSpn is true, a SPN string has to be supplied");
+                } else
+                {
+                    this.Spn = spn;
+                }
+            }
+            this.UseUpn = useUpn;
+            if (this.UseUpn)
+            {
+                if (string.IsNullOrEmpty(upn))
+                {
+                    throw new Exception("If useSpn is true, a UPN string has to be supplied");
+                } else
+                {
+                    this.Upn = upn;
+                }
+            }
+            
         }
+
 
         private KeyTabConfig()
         {
@@ -382,9 +402,9 @@ namespace CoreRequest
             this.EncryptionType = "";
             this.UseUpn = false;
             this.Upn = "";
-            this.UseSpn = true;
+            this.UseSpn = false;
             this.Spn = "";
-            this.ExportDirectory = "";
+            this.KnownPassword = false;
         }
 
         public static class KeyTabEncryption
