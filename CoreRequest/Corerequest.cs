@@ -194,6 +194,30 @@ namespace CoreRequest
             streamReader.Close();
             return temp;
         }
+
+        public static DNSRequest Open(string Path)
+        {
+
+            if (!Path.EndsWith(".xml")) { throw new Exception("Can only load XML-Files"); }
+
+            if (!System.IO.File.Exists(Path))
+            {
+                throw new Exception("File does not exist. Can't open.");
+            }
+
+            System.IO.FileStream fileStream =
+                new System.IO.FileStream(
+                    Path,
+                    System.IO.FileMode.Open,
+                    System.IO.FileAccess.Read);
+
+            System.IO.StreamReader streamReader = new System.IO.StreamReader(fileStream);
+            System.Xml.Serialization.XmlSerializer xmlSerializer = new System.Xml.Serialization.XmlSerializer(typeof(DNSRequest));
+            DNSRequest temp = new DNSRequest();
+            temp = (DNSRequest)xmlSerializer.Deserialize(streamReader);
+            streamReader.Close();
+            return temp;
+        }
     }
 
 
