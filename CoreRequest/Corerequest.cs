@@ -395,7 +395,7 @@ namespace CoreRequest
         }
 
 
-        private KeyTabConfig()
+        public KeyTabConfig()
         {
             this.UseServiceAccount = false;
             this.AccountName = "";
