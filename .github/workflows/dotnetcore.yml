@@ -20,6 +20,8 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --configuration Release --no-restore
+    - name: Test
+      run: dotnet test --no-restore --verbosity normal
     - name: Commit files
       run: |
         git config --local user.email "action@github.com"
@@ -31,5 +33,3 @@ jobs:
       with:
         github_token: ${{ secrets.MyGHToken }}
         force: true
-    - name: Test
-      run: dotnet test --no-restore --verbosity normal
