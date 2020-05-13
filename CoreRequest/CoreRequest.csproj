@@ -2,6 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>ChaozMc</Authors>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Copyright>(c) ChaozMc 2020</Copyright>
+    <AssemblyVersion>1.0.1.0</AssemblyVersion>
+    <FileVersion>1.0.1.0</FileVersion>
+    <RepositoryUrl>https://github.com/chaozmc/CoreRequest</RepositoryUrl>
   </PropertyGroup>
 
 </Project>
