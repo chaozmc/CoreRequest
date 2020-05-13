@@ -23,13 +23,3 @@ jobs:
       run: dotnet build --configuration Release --no-restore
     - name: Test
       run: dotnet test --no-restore --verbosity normal
-    - name: Commit files  # transfer the new html files back into the repository
-      run: |
-        git config --local user.name  ${{ github.actor }}
-        git add .\CoreRequest\Build
-        git commit -m "Updating the repository GitHub html pages in the docs folder"
-    - name: Push changes  # push the output folder to your repo
-      uses: ad-m/github-push-action@master
-      with:
-        github_token: ${{ secrets.MyGHToken }}
-        force: true
