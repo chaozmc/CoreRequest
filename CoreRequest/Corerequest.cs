@@ -332,7 +332,7 @@ namespace CoreRequest
 
             if (!System.IO.File.Exists(Folder + System.IO.Path.DirectorySeparatorChar + FileName))
             {
-                throw new Exception("File does not exist. Can't proceed.");
+                throw new Exception("File does not exist. Can't proceed!");
             }
 
             System.IO.FileStream fileStream =
