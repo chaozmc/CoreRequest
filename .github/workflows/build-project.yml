@@ -1,0 +1,36 @@
+name: .NET Core
+
+on:
+  push:
+    branches: [ release ]
+  pull_request:
+    branches: [ release ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.101
+    - name: Install dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
+    - name: Test
+      run: dotnet test --no-restore --verbosity normal
+    - name: Commit files
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add ./CoreRequest/Build/
+        git commit -m "Updating the repository Build-folder"
+    - name: Push changes
+      uses: ad-m/github-push-action@v0.5.0
+      with:
+        github_token: ${{ secrets.MyGHToken }}
+        force: true
+        branch: release
