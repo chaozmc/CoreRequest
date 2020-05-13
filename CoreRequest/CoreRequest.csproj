@@ -11,4 +11,12 @@
     <RepositoryUrl>https://github.com/chaozmc/CoreRequest</RepositoryUrl>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>Build\</OutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Build\" />
+  </ItemGroup>
+
 </Project>
