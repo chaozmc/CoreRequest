@@ -22,14 +22,3 @@ jobs:
       run: dotnet build --configuration Release --no-restore
     - name: Test
       run: dotnet test --no-restore --verbosity normal
-    - name: Commit files
-      run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        git add ./CoreRequest/Build/
-        git commit -m "Updating the repository Build-folder"
-    - name: Push changes
-      uses: ad-m/github-push-action@v0.5.0
-      with:
-        github_token: ${{ secrets.MyGHToken }}
-        force: true
